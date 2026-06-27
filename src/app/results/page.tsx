@@ -1,16 +1,27 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
+import { useEffect, useState, Suspense } from "react";
 import { RecipeCard } from "@/components/recipes/recipe-card";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Download, Printer, Share2, Loader2, Flame } from "lucide-react";
 import Link from "next/link";
-import { Header } from "@/components/layout/header";
-import { Footer } from "@/components/layout/footer";
 import { GenerationResult, Recipe } from "@/types/recipe";
 
 export default function ResultsPage() {
+  return (
+    <Suspense fallback={
+      <div className="flex flex-col items-center justify-center container mx-auto px-4 py-12">
+        <Loader2 className="h-10 w-10 animate-spin text-primary" />
+      </div>
+    }>
+      <ResultsContent />
+    </Suspense>
+  );
+}
+
+function ResultsContent() {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const proteinSlug = searchParams.get("protein");
   const methodSlug = searchParams.get("method");
@@ -111,36 +122,28 @@ export default function ResultsPage() {
 
   if (isLoading) {
     return (
-      <div className="flex flex-col min-h-screen bg-background text-foreground">
-        <Header />
-        <main className="flex-1 flex flex-col items-center justify-center container mx-auto px-4 py-12">
-          <div className="relative mb-8">
-            <div className="h-24 w-24 rounded-full border-4 border-primary/20 border-t-primary animate-spin" />
-            <Flame className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-10 w-10 text-primary animate-pulse" />
-          </div>
-          <h2 className="text-2xl font-bold mb-2">Stoking the fire...</h2>
-          <p className="text-muted-foreground animate-pulse">Our pitmasters are crafting your custom flavor trio.</p>
-        </main>
-        <Footer />
+      <div className="flex flex-col items-center justify-center container mx-auto px-4 py-12">
+        <div className="relative mb-8">
+          <div className="h-24 w-24 rounded-full border-4 border-primary/20 border-t-primary animate-spin" />
+          <Flame className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-10 w-10 text-primary animate-pulse" />
+        </div>
+        <h2 className="text-2xl font-bold mb-2">Stoking the fire...</h2>
+        <p className="text-muted-foreground animate-pulse">Our pitmasters are crafting your custom flavor trio.</p>
       </div>
     );
   }
 
   if (error || !data) {
     return (
-      <div className="flex flex-col min-h-screen bg-background text-foreground">
-        <Header />
-        <main className="flex-1 flex flex-col items-center justify-center container mx-auto px-4 py-12 text-center">
-          <div className="bg-destructive/10 p-6 rounded-full mb-6">
-            <ArrowLeft className="h-12 w-12 text-destructive" />
-          </div>
-          <h2 className="text-2xl font-bold mb-2">Something went wrong</h2>
-          <p className="text-muted-foreground mb-8">{error || "Could not generate recipes at this time."}</p>
-          <Button asChild>
-            <Link href="/builder">Return to Builder</Link>
-          </Button>
-        </main>
-        <Footer />
+      <div className="flex flex-col items-center justify-center container mx-auto px-4 py-12 text-center">
+        <div className="bg-destructive/10 p-6 rounded-full mb-6">
+          <ArrowLeft className="h-12 w-12 text-destructive" />
+        </div>
+        <h2 className="text-2xl font-bold mb-2">Something went wrong</h2>
+        <p className="text-muted-foreground mb-8">{error || "Could not generate recipes at this time."}</p>
+        <Button asChild>
+          <Link href="/builder">Return to Builder</Link>
+        </Button>
       </div>
     );
   }

@@ -2,8 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Header } from "@/components/layout/header";
-import { Footer } from "@/components/layout/footer";
 import { StepIndicator } from "@/components/builder/step-indicator";
 import { ProteinCard } from "@/components/builder/protein-card";
 import { MethodSelector } from "@/components/builder/method-selector";
