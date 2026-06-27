@@ -25,6 +25,8 @@ export async function POST(req: NextRequest) {
     const results: Record<string, any> = {};
 
     for (const type of types) {
+      let matchType: "exact" | "protein_flavor" | "flavor_only" | "protein_only" | "none" = "exact";
+      
       // Try exact match: protein + method + flavor
       let [template] = await db
         .select()
@@ -41,6 +43,7 @@ export async function POST(req: NextRequest) {
 
       // Fallback 1: protein + flavor (any method)
       if (!template) {
+        matchType = "protein_flavor";
         [template] = await db
           .select()
           .from(recipeTemplates)
@@ -56,6 +59,7 @@ export async function POST(req: NextRequest) {
 
       // Fallback 2: flavor (any protein, any method)
       if (!template) {
+        matchType = "flavor_only";
         [template] = await db
           .select()
           .from(recipeTemplates)
@@ -70,6 +74,7 @@ export async function POST(req: NextRequest) {
 
       // Fallback 3: protein (any flavor, any method) - get first available for this type
       if (!template) {
+        matchType = "protein_only";
         [template] = await db
           .select()
           .from(recipeTemplates)
@@ -83,7 +88,18 @@ export async function POST(req: NextRequest) {
       }
 
       if (template) {
-        results[type] = template;
+        // If it's a cross-protein match (flavor_only fallback), customize the response
+        const isCrossProteinMatch = matchType === "flavor_only" && template.proteinId !== protein.id;
+        
+        results[type] = {
+          ...template,
+          matchType,
+          isCrossProteinMatch,
+          // If cross-protein, add a note to the instructions or ingredients
+          cookingTips: isCrossProteinMatch 
+            ? [...(template.cookingTips || []), `Note: This ${flavor.name} recipe was originally designed for another protein but works great with ${protein.name} too!`]
+            : template.cookingTips
+        };
       }
     }
 
