@@ -97,7 +97,7 @@ export async function POST(req: NextRequest) {
           isCrossProteinMatch,
           // If cross-protein, add a note to the instructions or ingredients
           cookingTips: isCrossProteinMatch 
-            ? [...(template.cookingTips || []), `Note: This ${flavor.name} recipe was originally designed for another protein but works great with ${protein.name} too!`]
+            ? [...((template.cookingTips as string[]) || []), `Note: This ${flavor.name} recipe was originally designed for another protein but works great with ${protein.name} too!`]
             : template.cookingTips
         };
       }

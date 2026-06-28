@@ -74,8 +74,19 @@ export const verificationTokens = sqliteTable(
 
 // --- App Specific Tables ---
 
+export const categories = sqliteTable("categories", {
+  id: text("id").primaryKey(),
+  name: text("name").unique().notNull(),
+  slug: text("slug").unique().notNull(),
+  icon: text("icon"),
+  description: text("description"),
+  sortOrder: integer("sort_order").default(0),
+});
+
 export const proteins = sqliteTable("proteins", {
   id: text("id").primaryKey(),
+  categoryId: text("category_id")
+    .references(() => categories.id),
   name: text("name").unique().notNull(),
   slug: text("slug").unique().notNull(),
   icon: text("icon"),
