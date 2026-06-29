@@ -3,12 +3,18 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(req: NextRequest) {
   try {
     const { message, email } = await req.json();
-    if (!message || typeof message !== "string" || message.trim().length === 0)
+
+    if (!message) {
       return NextResponse.json({ error: "Message is required" }, { status: 400 });
-    console.log("📬 Feedback:", { message: message.substring(0, 500), email: email || "anonymous", time: new Date().toISOString() });
+    }
+
+    // In a real app, we would save this to a database or send an email.
+    // For now, we'll just log it and return success.
+    console.log(`[FEEDBACK] from ${email || "anonymous"}: ${message}`);
+
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("Feedback error:", error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    console.error("Error processing feedback:", error);
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }
