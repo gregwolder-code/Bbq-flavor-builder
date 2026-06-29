@@ -8,7 +8,8 @@ interface StepIndicatorProps {
 const steps = [
   { id: 1, name: "Protein" },
   { id: 2, name: "Method" },
-  { id: 3, name: "Flavor" },
+  { id: 3, name: "Time" },
+  { id: 4, name: "Flavor" },
 ];
 
 export function StepIndicator({ currentStep }: StepIndicatorProps) {

@@ -3,6 +3,7 @@
 import { useSearchParams, useRouter } from "next/navigation";
 import { useEffect, useState, Suspense } from "react";
 import { RecipeCard } from "@/components/recipes/recipe-card";
+import { CookTimeline } from "@/components/recipes/cook-timeline";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Download, Printer, Share2, Loader2, Flame } from "lucide-react";
 import Link from "next/link";
@@ -26,6 +27,7 @@ function ResultsContent() {
   const proteinSlug = searchParams.get("protein");
   const methodSlug = searchParams.get("method");
   const flavorSlug = searchParams.get("flavor");
+  const timeSlug = searchParams.get("time") || "standard";
 
   const [data, setData] = useState<GenerationResult | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -160,7 +162,7 @@ function ResultsContent() {
           </Link>
           <h1 className="text-3xl font-bold">Your Custom Flavor Trio</h1>
           <p className="text-muted-foreground capitalize">
-            Generated for: <span className="font-semibold text-foreground">{protein.name} • {method.name} • {flavor.name}</span>
+            Generated for: <span className="font-semibold text-foreground">{protein.name} • {method.name} • {flavor.name} • {timeSlug.replace('-', ' ')} time</span>
           </p>
         </div>
         <div className="flex flex-wrap justify-center gap-3">
@@ -188,7 +190,9 @@ function ResultsContent() {
               type={recipe.recipeType}
               title={recipe.title}
               description={recipe.title} // Fallback since description isn't in template yet
+              prepTime={recipe.prepTime}
               cookTime={recipe.cookTime}
+              restingTime={recipe.restingTime}
               temp={recipe.targetTempF}
               ingredients={recipe.ingredients}
               instructions={recipe.instructions}
@@ -203,7 +207,10 @@ function ResultsContent() {
       </div>
 
       <div className="mt-16 bg-card rounded-xl p-8 border-2">
-        <h2 className="text-2xl font-bold mb-6">Expert Recommendations</h2>
+        <CookTimeline recipes={recipeArray} />
+      </div>
+
+      <div className="mt-12 bg-card rounded-xl p-8 border-2">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
             <h3 className="font-bold text-primary mb-3 flex items-center">

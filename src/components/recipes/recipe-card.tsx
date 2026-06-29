@@ -8,13 +8,15 @@ interface RecipeCardProps {
   type: 'dry_rub' | 'marinade' | 'brine';
   title: string;
   description: string;
+  prepTime?: string;
   cookTime?: string;
+  restingTime?: string;
   temp?: number;
   ingredients: string[];
   instructions: string[];
 }
 
-export function RecipeCard({ type, title, description, cookTime, temp, ingredients, instructions }: RecipeCardProps) {
+export function RecipeCard({ type, title, description, prepTime, cookTime, restingTime, temp, ingredients, instructions }: RecipeCardProps) {
   const typeColors = {
     dry_rub: "bg-orange-100 text-orange-800 border-orange-200 dark:bg-orange-900 dark:text-orange-100",
     marinade: "bg-red-100 text-red-800 border-red-200 dark:bg-red-900 dark:text-red-100",
@@ -49,17 +51,29 @@ export function RecipeCard({ type, title, description, cookTime, temp, ingredien
         </CardDescription>
       </CardHeader>
       <CardContent className="flex-grow">
-        <div className="flex gap-4 mb-6 text-sm">
+        <div className="grid grid-cols-2 gap-x-4 gap-y-2 mb-6 text-sm">
+          {prepTime && (
+            <div className="flex items-center text-muted-foreground">
+              <Clock className="mr-1.5 h-4 w-4 text-primary/70" />
+              <span className="font-medium mr-1 text-foreground/80">Prep:</span> {prepTime}
+            </div>
+          )}
           {cookTime && (
             <div className="flex items-center text-muted-foreground">
-              <Clock className="mr-1 h-4 w-4" />
-              {cookTime}
+              <Clock className="mr-1.5 h-4 w-4 text-primary/70" />
+              <span className="font-medium mr-1 text-foreground/80">Cook:</span> {cookTime}
+            </div>
+          )}
+          {restingTime && (
+            <div className="flex items-center text-muted-foreground">
+              <Clock className="mr-1.5 h-4 w-4 text-primary/70" />
+              <span className="font-medium mr-1 text-foreground/80">Rest:</span> {restingTime}
             </div>
           )}
           {temp && (
             <div className="flex items-center text-muted-foreground">
-              <Flame className="mr-1 h-4 w-4" />
-              {temp}°F
+              <Flame className="mr-1.5 h-4 w-4 text-primary/70" />
+              <span className="font-medium mr-1 text-foreground/80">Goal:</span> {temp}°F
             </div>
           )}
         </div>

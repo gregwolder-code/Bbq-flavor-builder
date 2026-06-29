@@ -3,7 +3,7 @@ import * as schema from "./schema";
 import { eq } from "drizzle-orm";
 
 async function seed() {
-  console.log("🌱 Seeding database with new structure...");
+  console.log("🌱 Seeding database with OWNER-APPROVED structure...");
 
   // 1. Clear existing data
   console.log("🧹 Clearing old data...");
@@ -27,38 +27,23 @@ async function seed() {
   }
   console.log("✅ Categories seeded");
 
-  // 3. Proteins (Sub-types)
+  // 3. Proteins (Owner-Approved List)
   const proteinsData = [
     // Beef
     { id: "p_brisket", categoryId: "cat_beef", name: "Brisket", slug: "brisket", icon: "🥩", description: "Whole packer brisket", sortOrder: 1 },
-    { id: "p_steak_ribeye", categoryId: "cat_beef", name: "Ribeye Steak", slug: "ribeye-steak", icon: "🥩", description: "Richly marbled ribeye", sortOrder: 2 },
-    { id: "p_steak_flank", categoryId: "cat_beef", name: "Flank Steak", slug: "flank-steak", icon: "🥩", description: "Lean and flavorful flank", sortOrder: 3 },
-    { id: "p_burgers", categoryId: "cat_beef", name: "Ground Beef (Burgers)", slug: "burgers", icon: "🍔", description: "80/20 ground beef blend", sortOrder: 4 },
-    { id: "p_beef_ribs", categoryId: "cat_beef", name: "Beef Ribs", slug: "beef-ribs", icon: "🍖", description: "Large, meaty dino ribs", sortOrder: 5 },
+    { id: "p_steak", categoryId: "cat_beef", name: "Steak", slug: "steak", icon: "🥩", description: "Beef steak cuts", sortOrder: 2 },
+    { id: "p_burgers", categoryId: "cat_beef", name: "Burgers", slug: "burgers", icon: "🍔", description: "Beef or turkey patties", sortOrder: 3 },
     // Pork
-    { id: "p_pork_butt", categoryId: "cat_pork", name: "Pork Butt (Shoulder)", slug: "pork-butt", icon: "🐷", description: "Ideal for pulled pork", sortOrder: 1 },
-    { id: "p_pork_baby_backs", categoryId: "cat_pork", name: "Baby Back Ribs", slug: "baby-back-ribs", icon: "🥓", description: "Tender, lean pork ribs", sortOrder: 2 },
-    { id: "p_pork_spare_ribs", categoryId: "cat_pork", name: "Spare Ribs", slug: "spare-ribs", icon: "🥓", description: "Meaty, flavorful pork ribs", sortOrder: 3 },
-    { id: "p_pork_chops", categoryId: "cat_pork", name: "Pork Chops", slug: "pork-chops", icon: "🥩", description: "Thick-cut bone-in chops", sortOrder: 4 },
-    { id: "p_pork_belly", categoryId: "cat_pork", name: "Pork Belly", slug: "pork-belly", icon: "🥓", description: "Rich and fatty pork belly", sortOrder: 5 },
+    { id: "p_pork_butt", categoryId: "cat_pork", name: "Pork Butt", slug: "pork-butt", icon: "🐷", description: "Ideal for pulled pork", sortOrder: 1 },
+    { id: "p_ribs", categoryId: "cat_pork", name: "Ribs", slug: "ribs", icon: "🥓", description: "Pork spare ribs or baby backs", sortOrder: 2 },
     // Poultry
-    { id: "p_chicken_whole", categoryId: "cat_poultry", name: "Whole Chicken", slug: "whole-chicken", icon: "🍗", description: "Spatchcocked or whole", sortOrder: 1 },
-    { id: "p_chicken_wings", categoryId: "cat_poultry", name: "Chicken Wings", slug: "chicken-wings", icon: "🍗", description: "Party-style wings", sortOrder: 2 },
-    { id: "p_chicken_thighs", categoryId: "cat_poultry", name: "Chicken Thighs", slug: "chicken-thighs", icon: "🍗", description: "Juicy bone-in thighs", sortOrder: 3 },
-    { id: "p_turkey_whole", categoryId: "cat_poultry", name: "Whole Turkey", slug: "whole-turkey", icon: "🦃", description: "The holiday favorite", sortOrder: 4 },
-    { id: "p_turkey_breast", categoryId: "cat_poultry", name: "Turkey Breast", slug: "turkey-breast", icon: "🦃", description: "Lean turkey breast", sortOrder: 5 },
+    { id: "p_chicken", categoryId: "cat_poultry", name: "Chicken", slug: "chicken", icon: "🍗", description: "Whole chicken or parts", sortOrder: 1 },
+    { id: "p_turkey", categoryId: "cat_poultry", name: "Turkey", slug: "turkey", icon: "🦃", description: "Whole turkey or breast", sortOrder: 2 },
     // Seafood
-    { id: "p_salmon", categoryId: "cat_seafood", name: "Salmon Fillet", slug: "salmon", icon: "🐟", description: "Fresh Atlantic salmon", sortOrder: 1 },
-    { id: "p_shrimp", categoryId: "cat_seafood", name: "Shrimp", slug: "shrimp", icon: "🦐", description: "Jumbo tail-on shrimp", sortOrder: 2 },
-    { id: "p_lobster", categoryId: "cat_seafood", name: "Lobster Tail", slug: "lobster-tail", icon: "🦞", description: "Decadent lobster tails", sortOrder: 3 },
-    { id: "p_scallops", categoryId: "cat_seafood", name: "Scallops", slug: "scallops", icon: "🐚", description: "Large sea scallops", sortOrder: 4 },
-    { id: "p_white_fish", categoryId: "cat_seafood", name: "White Fish", slug: "white-fish", icon: "🐟", description: "Cod, halibut, or tilapia", sortOrder: 5 },
+    { id: "p_salmon", categoryId: "cat_seafood", name: "Salmon", slug: "salmon", icon: "🐟", description: "Fresh Atlantic salmon", sortOrder: 1 },
+    { id: "p_shrimp", categoryId: "cat_seafood", name: "Shrimp", slug: "shrimp", icon: "🦐", description: "Jumbo shrimp or prawns", sortOrder: 2 },
     // Vegetables
-    { id: "p_corn", categoryId: "cat_vegetables", name: "Corn on the Cob", slug: "corn", icon: "🌽", description: "Sweet summer corn", sortOrder: 1 },
-    { id: "p_asparagus", categoryId: "cat_vegetables", name: "Asparagus", slug: "asparagus", icon: "🌿", description: "Fresh green spears", sortOrder: 2 },
-    { id: "p_zucchini", categoryId: "cat_vegetables", name: "Zucchini", slug: "zucchini", icon: "🥒", description: "Sliced summer squash", sortOrder: 3 },
-    { id: "p_mushrooms", categoryId: "cat_vegetables", name: "Portobello Mushrooms", slug: "mushrooms", icon: "🍄", description: "Meaty mushroom caps", sortOrder: 4 },
-    { id: "p_veg_mixed", categoryId: "cat_vegetables", name: "Mixed Veggies", slug: "mixed-veggies", icon: "🥗", description: "Seasonal vegetable medley", sortOrder: 5 },
+    { id: "p_veg_mixed", categoryId: "cat_vegetables", name: "Mixed Veggies", slug: "mixed-veggies", icon: "🥗", description: "Seasonal vegetable medley", sortOrder: 1 },
   ];
 
   for (const p of proteinsData) {
@@ -66,7 +51,7 @@ async function seed() {
   }
   console.log("✅ Proteins seeded");
 
-  // 4. Cooking Methods (Stay the same mostly)
+  // 4. Cooking Methods
   const methodsData = [
     { id: "m_smoker", name: "Smoker", slug: "smoker", icon: "🔥", description: "Offset, vertical, or drum smoker", defaultTempF: 225, sortOrder: 1 },
     { id: "m_pellet_grill", name: "Pellet Grill", slug: "pellet-grill", icon: "🔥", description: "Wood pellet grill/smoker", defaultTempF: 250, sortOrder: 2 },
@@ -80,13 +65,13 @@ async function seed() {
   }
   console.log("✅ Cooking methods seeded");
 
-  // 5. Flavor Profiles (Simplified)
+  // 5. Flavor Profiles (Owner-Approved List)
   const flavorsData = [
     { id: "f_sweet_smoky", name: "Sweet & Smoky", slug: "sweet-smoky", icon: "🍯", description: "Classic BBQ with brown sugar and hickory notes", sortOrder: 1 },
     { id: "f_spicy", name: "Spicy", slug: "spicy", icon: "🌶️", description: "Bold heat from cayenne, chipotle, and peppers", sortOrder: 2 },
     { id: "f_tangy", name: "Tangy", slug: "tangy", icon: "🍋", description: "Bright vinegar, citrus, or mustard-based flavors", sortOrder: 3 },
-    { id: "f_garlic_herb", name: "Garlic & Herb", slug: "garlic-herb", icon: "🧄", description: "Savory blend of roasted garlic and fresh garden herbs", sortOrder: 4 },
-    { id: "f_texas_style", name: "Texas Style", slug: "texas-style", icon: "🤠", description: "Pure salt and heavy black pepper, brisket style", sortOrder: 5 },
+    { id: "f_savory_herb", name: "Savory Herb", slug: "savory-herb", icon: "🌿", description: "Savory blend of roasted garlic and fresh garden herbs", sortOrder: 4 },
+    { id: "f_texas_classic", name: "Texas Classic", slug: "texas-classic", icon: "🤠", description: "Pure salt and heavy black pepper, brisket style", sortOrder: 5 },
   ];
 
   for (const f of flavorsData) {
@@ -94,421 +79,327 @@ async function seed() {
   }
   console.log("✅ Flavor profiles seeded");
 
-  // 6. Recipe Templates (Migrated and updated)
+  // 6. Recipe Templates (At least one rub, marinade, and brine per category/protein)
   const templates = [
+    // Beef - Brisket
     {
       id: crypto.randomUUID(),
-      title: "Texas Style Smoked Brisket",
+      title: "Texas Classic Smoked Brisket",
       proteinId: "p_brisket",
       cookingMethodId: "m_smoker",
-      flavorProfileId: "f_texas_style",
+      flavorProfileId: "f_texas_classic",
       recipeType: "dry_rub" as const,
       ingredients: [
         "1 whole packer brisket (12-14 lbs)",
         "1/2 cup coarse black pepper (16 mesh)",
         "1/2 cup kosher salt",
-        "1/4 cup granulated garlic (optional)",
-        "Beef tallow or binder (mustard/water) as needed"
+        "1/4 cup granulated garlic",
+        "Beef tallow for wrapping"
       ],
       instructions: [
-        "Trim the brisket, leaving about 1/4 inch of fat cap.",
-        "Mix salt and pepper (and garlic if using) in a shaker.",
-        "Apply binder if desired, then coat the brisket liberally with the rub.",
-        "Preheat smoker to 225°F-250°F using post oak wood.",
-        "Place brisket on the smoker fat side up (or toward heat source).",
-        "Smoke until the internal temperature reaches about 165°F and the bark is well-set.",
-        "Wrap in peach butcher paper and continue cooking until tender (internal temp ~203°F).",
-        "Rest in a cooler for at least 2-4 hours before slicing."
+        "Trim brisket fat cap to 1/4 inch.",
+        "Mix salt, pepper, and garlic; coat brisket liberally.",
+        "Smoke at 225°F with post oak until internal temp is 165°F.",
+        "Wrap in butcher paper with beef tallow.",
+        "Continue smoking until 203°F internal and probe tender.",
+        "Rest in a cooler for at least 3 hours."
       ],
       prepTime: "45 min",
-      cookTime: "12-14 hours",
-      restingTime: "2-4 hours",
+      cookTime: "12 hours",
+      restingTime: "3 hours",
       targetTempF: 203,
       woodPairings: ["Post Oak", "Hickory"],
-      sauceRecommendations: ["None (Texas tradition)", "Thin, peppery vinegar sauce on the side"],
-      sideRecommendations: ["Pickles", "Onions", "White bread", "Potato salad", "Pinto beans"],
-      cookingTips: ["The rest is just as important as the cook. Don't skip it!"]
+      sauceRecommendations: ["None"],
+      sideRecommendations: ["Pickles", "Onions", "White bread"],
+      cookingTips: ["Patience is key. The rest is non-negotiable."]
     },
+    // Beef - Steak
     {
       id: crypto.randomUUID(),
-      title: "Sweet Honey Glazed Charcoal Chicken Wings",
-      proteinId: "p_chicken_wings",
+      title: "Savory Herb Marinated Ribeye",
+      proteinId: "p_steak",
       cookingMethodId: "m_charcoal_grill",
-      flavorProfileId: "f_sweet_smoky",
+      flavorProfileId: "f_savory_herb",
       recipeType: "marinade" as const,
       ingredients: [
-        "2 lbs chicken wings",
-        "1/2 cup honey",
-        "1/4 cup brown sugar",
-        "1/4 cup soy sauce",
-        "2 tbsp apple cider vinegar",
-        "1 tsp smoked paprika",
-        "1/2 tsp garlic powder"
-      ],
-      instructions: [
-        "Whisk together honey, brown sugar, soy sauce, vinegar, and spices.",
-        "Place wings in a large bowl and pour marinade over. Marinate for 1 hour.",
-        "Setup charcoal grill for two-zone cooking.",
-        "Grill wings on indirect heat at 350°F for 20-25 minutes.",
-        "Move to direct heat, glaze with remaining marinade, and char for 2 minutes per side until 165°F internal."
-      ],
-      prepTime: "1 hour",
-      cookTime: "30 min",
-      restingTime: "5 min",
-      targetTempF: 165,
-      woodPairings: ["Apple", "Cherry"],
-      sauceRecommendations: ["Extra honey BBQ sauce"],
-      sideRecommendations: ["Celery sticks", "Blue cheese dressing", "Coleslaw"],
-      cookingTips: ["Pat wings dry before marinating for better skin texture."]
-    },
-    {
-      id: crypto.randomUUID(),
-      title: "Kansas City Style Pulled Pork",
-      proteinId: "p_pork_butt",
-      cookingMethodId: "m_pellet_grill",
-      flavorProfileId: "f_sweet_smoky",
-      recipeType: "dry_rub" as const,
-      ingredients: [
-        "8-10 lb Pork Butt (Pork Shoulder)",
-        "1/2 cup brown sugar",
-        "1/4 cup paprika",
-        "1 tbsp black pepper",
-        "1 tbsp salt",
-        "1 tsp chili powder",
-        "KC Style BBQ Sauce (thick and sweet)"
-      ],
-      instructions: [
-        "Coat pork butt in the dry rub.",
-        "Preheat pellet grill to 250°F.",
-        "Smoke until internal temperature reaches 165°F.",
-        "Wrap in foil with apple juice and cook until 203°F.",
-        "Rest for 1 hour, then shred and mix with KC sauce."
-      ],
-      prepTime: "20 min",
-      cookTime: "10-12 hours",
-      restingTime: "1 hour",
-      targetTempF: 203,
-      woodPairings: ["Apple", "Hickory"],
-      sauceRecommendations: ["Thick, sweet KC style sauce"],
-      sideRecommendations: ["Mac and cheese", "Baked beans", "Cornbread"],
-      cookingTips: ["Wait for the bone to wiggle freely before pulling."]
-    },
-    {
-      id: crypto.randomUUID(),
-      title: "Garlic Herb Grilled Salmon",
-      proteinId: "p_salmon",
-      cookingMethodId: "m_gas_grill",
-      flavorProfileId: "f_garlic_herb",
-      recipeType: "marinade" as const,
-      ingredients: [
-        "4 salmon fillets",
+        "2 large ribeye steaks",
         "1/4 cup olive oil",
         "3 cloves garlic, minced",
-        "1 tbsp fresh parsley",
-        "1/2 lemon, juiced",
+        "1 tbsp fresh rosemary, chopped",
+        "1 tbsp fresh thyme, chopped",
+        "2 tbsp Worcestershire sauce",
         "Salt and pepper"
       ],
       instructions: [
-        "Marinate salmon in oil, garlic, herbs, and lemon for 30 minutes.",
-        "Preheat gas grill to 400°F.",
-        "Place salmon skin-side down.",
-        "Cook for 6-8 minutes until it flakes easily."
+        "Mix oil, garlic, herbs, and Worcestershire.",
+        "Marinate steaks for 2-4 hours in the fridge.",
+        "Preheat grill to high heat.",
+        "Sear steaks for 4-5 minutes per side for medium-rare.",
+        "Rest for 10 minutes before slicing."
       ],
-      prepTime: "40 min",
+      prepTime: "2 hours",
       cookTime: "10 min",
-      restingTime: "5 min",
-      targetTempF: 145,
-      woodPairings: ["Alder"],
-      sauceRecommendations: ["Lemon butter sauce"],
-      sideRecommendations: ["Asparagus", "Wild rice"],
-      cookingTips: ["Don't flip the salmon; cook skin-side down the whole time."]
+      restingTime: "10 min",
+      targetTempF: 135,
+      woodPairings: ["Oak"],
+      sauceRecommendations: ["Garlic butter"],
+      sideRecommendations: ["Baked potato", "Asparagus"],
+      cookingTips: ["Take steaks out of the fridge 30 mins before grilling."]
     },
+    // Beef - Burgers
     {
       id: crypto.randomUUID(),
-      title: "Spicy Smoked Spare Ribs",
-      proteinId: "p_pork_spare_ribs",
-      cookingMethodId: "m_smoker",
-      flavorProfileId: "f_spicy",
+      title: "Sweet & Smoky Grilled Burgers",
+      proteinId: "p_burgers",
+      cookingMethodId: "m_gas_grill",
+      flavorProfileId: "f_sweet_smoky",
       recipeType: "dry_rub" as const,
       ingredients: [
-        "2 racks of pork spare ribs",
-        "1/4 cup brown sugar",
-        "2 tbsp cayenne pepper",
-        "2 tbsp chili powder",
-        "1 tbsp salt"
+        "2 lbs 80/20 ground beef",
+        "2 tbsp brown sugar",
+        "1 tbsp smoked paprika",
+        "1 tsp onion powder",
+        "1 tsp garlic powder",
+        "1 tsp salt",
+        "1/2 tsp black pepper"
       ],
       instructions: [
-        "Remove membrane and apply rub.",
-        "Smoke at 225°F for 3 hours.",
-        "Wrap with apple juice and hot sauce for 2 hours.",
-        "Unwrap and glaze with spicy BBQ sauce for 1 hour."
+        "Gently form beef into 4-6 patties.",
+        "Mix rub ingredients and sprinkle on both sides of patties.",
+        "Grill over medium-high heat for 5 minutes per side.",
+        "Toast buns and serve with your favorite toppings."
       ],
-      prepTime: "30 min",
+      prepTime: "15 min",
+      cookTime: "10 min",
+      restingTime: "2 min",
+      targetTempF: 160,
+      woodPairings: [],
+      sauceRecommendations: ["Honey BBQ sauce"],
+      sideRecommendations: ["French fries", "Coleslaw"],
+      cookingTips: ["Don't press down on the patties while grilling!"]
+    },
+    // Pork - Pork Butt
+    {
+      id: crypto.randomUUID(),
+      title: "Tangy Carolina Brined Pork Butt",
+      proteinId: "p_pork_butt",
+      cookingMethodId: "m_pellet_grill",
+      flavorProfileId: "f_tangy",
+      recipeType: "brine" as const,
+      ingredients: [
+        "8 lb pork butt",
+        "1 gallon water",
+        "1/2 cup salt",
+        "1/2 cup apple cider vinegar",
+        "1/4 cup brown sugar",
+        "1 tbsp red pepper flakes"
+      ],
+      instructions: [
+        "Dissolve salt and sugar in water; add vinegar and pepper flakes.",
+        "Brine pork butt for 12 hours.",
+        "Remove from brine, pat dry, and apply a light rub.",
+        "Smoke at 250°F until internal temp reaches 203°F.",
+        "Rest for 1 hour, then shred."
+      ],
+      prepTime: "12 hours",
+      cookTime: "10 hours",
+      restingTime: "1 hour",
+      targetTempF: 203,
+      woodPairings: ["Hickory", "Apple"],
+      sauceRecommendations: ["Vinegar-based Carolina sauce"],
+      sideRecommendations: ["Hush puppies", "Collard greens"],
+      cookingTips: ["The brine helps keep the pork moist during the long cook."]
+    },
+    // Pork - Ribs
+    {
+      id: crypto.randomUUID(),
+      title: "Sweet & Smoky Memphis Ribs",
+      proteinId: "p_ribs",
+      cookingMethodId: "m_smoker",
+      flavorProfileId: "f_sweet_smoky",
+      recipeType: "dry_rub" as const,
+      ingredients: [
+        "2 racks baby back ribs",
+        "1/2 cup brown sugar",
+        "2 tbsp paprika",
+        "1 tbsp salt",
+        "1 tbsp onion powder",
+        "1 tsp cayenne pepper"
+      ],
+      instructions: [
+        "Remove membrane from back of ribs.",
+        "Apply rub liberally on both sides.",
+        "Smoke at 225°F for 3 hours.",
+        "Spritz with apple juice every hour.",
+        "Cook until ribs pass the bend test (approx 5-6 hours total).",
+        "Rest 15 minutes before cutting."
+      ],
+      prepTime: "20 min",
       cookTime: "6 hours",
       restingTime: "15 min",
       targetTempF: 195,
-      woodPairings: ["Hickory"],
-      sauceRecommendations: ["Habanero BBQ sauce"],
-      sideRecommendations: ["Jalapeno poppers", "Spicy slaw"],
-      cookingTips: ["Use the 'bend test' to check for doneness."]
+      woodPairings: ["Cherry", "Hickory"],
+      sauceRecommendations: ["Sweet BBQ sauce on the side"],
+      sideRecommendations: ["Baked beans", "Cornbread"],
+      cookingTips: ["Spritzing adds moisture and helps build a better bark."]
     },
+    // Poultry - Chicken
     {
       id: crypto.randomUUID(),
-      title: "Texas-Style Ribeye Steak",
-      proteinId: "p_steak_ribeye",
+      title: "Spicy Grilled Spatchcock Chicken",
+      proteinId: "p_chicken",
       cookingMethodId: "m_charcoal_grill",
-      flavorProfileId: "f_texas_style",
-      recipeType: "dry_rub" as const,
+      flavorProfileId: "f_spicy",
+      recipeType: "marinade" as const,
       ingredients: [
-        "2 Ribeye steaks (1.5 inch thick)",
-        "2 tbsp coarse black pepper",
-        "1 tbsp kosher salt",
-        "1 tsp granulated garlic"
+        "1 whole chicken",
+        "1/2 cup olive oil",
+        "1/4 cup hot sauce",
+        "2 tbsp lime juice",
+        "1 tbsp chili powder",
+        "3 cloves garlic, minced"
       ],
       instructions: [
-        "Season steaks liberally and let sit for 30 min.",
-        "Prepare charcoal grill for high direct heat.",
-        "Sear for 3-4 minutes per side until 130°F internal.",
-        "Rest for 10 minutes."
+        "Spatchcock the chicken by removing the backbone.",
+        "Mix marinade ingredients and coat chicken. Marinate for 4 hours.",
+        "Grill indirect at 375°F for 45 minutes.",
+        "Move to direct heat for 5 minutes to crisp skin.",
+        "Rest 15 minutes before carving."
       ],
-      prepTime: "45 min",
-      cookTime: "10 min",
-      restingTime: "10 min",
-      targetTempF: 130,
-      woodPairings: ["Oak"],
-      sauceRecommendations: ["Garlic butter"],
-      sideRecommendations: ["Baked potato", "Creamed spinach"],
-      cookingTips: ["Coarse pepper is key for the Texas crust."]
+      prepTime: "4 hours",
+      cookTime: "50 min",
+      restingTime: "15 min",
+      targetTempF: 165,
+      woodPairings: ["Apple"],
+      sauceRecommendations: ["Spicy garlic aioli"],
+      sideRecommendations: ["Grilled corn", "Potato salad"],
+      cookingTips: ["Removing the backbone helps the chicken cook flat and evenly."]
     },
+    // Poultry - Turkey
     {
       id: crypto.randomUUID(),
-      title: "Savory Garlic Herb Turkey Breast",
-      proteinId: "p_turkey_breast",
-      cookingMethodId: "m_pellet_grill",
-      flavorProfileId: "f_garlic_herb",
+      title: "Savory Herb Smoked Turkey Breast",
+      proteinId: "p_turkey",
+      cookingMethodId: "m_smoker",
+      flavorProfileId: "f_savory_herb",
       recipeType: "dry_rub" as const,
       ingredients: [
-        "1 turkey breast",
-        "2 tbsp olive oil",
-        "1 tbsp garlic powder",
-        "1 tsp dried rosemary",
-        "1 tsp dried thyme",
-        "Salt and pepper"
+        "1 turkey breast (bone-in)",
+        "2 tbsp softened butter",
+        "1 tbsp dried thyme",
+        "1 tbsp dried rosemary",
+        "1 tsp garlic powder",
+        "1 tsp salt",
+        "1/2 tsp black pepper"
       ],
       instructions: [
-        "Coat turkey in oil and apply herb rub.",
-        "Preheat pellet grill to 325°F.",
-        "Cook until 165°F internal temperature.",
-        "Rest for 20 minutes."
+        "Rub butter under and over the skin.",
+        "Mix herbs and spices; apply to the turkey.",
+        "Smoke at 275°F until internal temp reaches 165°F.",
+        "Rest for 20 minutes before slicing."
       ],
       prepTime: "15 min",
-      cookTime: "2 hours",
+      cookTime: "2.5 hours",
       restingTime: "20 min",
       targetTempF: 165,
-      woodPairings: ["Apple", "Pecan"],
-      sauceRecommendations: ["White Alabama sauce"],
-      sideRecommendations: ["Mashed potatoes", "Green beans"],
-      cookingTips: ["High heat helps prevent rubbery skin."]
+      woodPairings: ["Pecan", "Cherry"],
+      sauceRecommendations: ["White Alabama BBQ sauce"],
+      sideRecommendations: ["Mashed sweet potatoes", "Green beans"],
+      cookingTips: ["Butter helps keep the lean turkey breast moist."]
     },
+    // Seafood - Salmon
     {
       id: crypto.randomUUID(),
-      title: "Tangy Balsamic Grilled Zucchini",
-      proteinId: "p_zucchini",
+      title: "Tangy Citrus Grilled Salmon",
+      proteinId: "p_salmon",
       cookingMethodId: "m_gas_grill",
       flavorProfileId: "f_tangy",
       recipeType: "marinade" as const,
       ingredients: [
-        "3 large zucchinis, sliced long",
-        "1/4 cup balsamic vinegar",
-        "2 tbsp olive oil",
-        "1 tsp dried oregano",
-        "1 clove garlic, minced"
+        "4 salmon fillets",
+        "1/4 cup orange juice",
+        "2 tbsp lemon juice",
+        "2 tbsp soy sauce",
+        "1 tbsp honey",
+        "1 tsp grated ginger"
       ],
       instructions: [
-        "Marinate zucchini for 20 minutes.",
-        "Grill over medium-high heat for 3-4 minutes per side.",
-        "Serve warm."
-      ],
-      prepTime: "20 min",
-      cookTime: "8 min",
-      restingTime: "0 min",
-      targetTempF: 160,
-      woodPairings: [],
-      sauceRecommendations: ["Extra balsamic glaze"],
-      sideRecommendations: ["Grilled polenta", "Feta cheese"],
-      cookingTips: ["Slice zucchini into thick planks so they don't fall through grates."]
-    },
-    {
-      id: crypto.randomUUID(),
-      title: "Garlic Herb Grilled Asparagus",
-      proteinId: "p_asparagus",
-      cookingMethodId: "m_gas_grill",
-      flavorProfileId: "f_garlic_herb",
-      recipeType: "dry_rub" as const,
-      ingredients: [
-        "1 lb asparagus",
-        "1 tbsp olive oil",
-        "1 tsp garlic salt",
-        "1/2 tsp black pepper",
-        "Lemon wedges"
-      ],
-      instructions: [
-        "Toss asparagus with oil and garlic salt.",
-        "Grill over high heat for 3-5 minutes until tender-crisp.",
-        "Squeeze fresh lemon over before serving."
-      ],
-      prepTime: "5 min",
-      cookTime: "5 min",
-      restingTime: "0 min",
-      targetTempF: 160,
-      woodPairings: [],
-      sauceRecommendations: ["Lemon juice"],
-      sideRecommendations: ["Grilled chicken", "Roasted salmon"],
-      cookingTips: ["Grill perpendicular to the grates so they don't fall through."]
-    },
-    {
-      id: crypto.randomUUID(),
-      title: "Sweet & Smoky Pork Belly Burnt Ends",
-      proteinId: "p_pork_belly",
-      cookingMethodId: "m_smoker",
-      flavorProfileId: "f_sweet_smoky",
-      recipeType: "dry_rub" as const,
-      ingredients: [
-        "5 lbs pork belly, cubed into 1-inch pieces",
-        "1/2 cup sweet BBQ rub",
-        "1 cup sweet BBQ sauce",
-        "1/4 cup honey",
-        "1/2 stick butter"
-      ],
-      instructions: [
-        "Season cubes with rub and smoke at 250°F for 3 hours.",
-        "Place cubes in a pan with sauce, honey, and butter.",
-        "Cover with foil and smoke for 1.5 more hours.",
-        "Uncover and smoke for 30 min to tack up the sauce."
+        "Mix marinade ingredients and pour over salmon.",
+        "Marinate for 30 minutes in the fridge.",
+        "Grill skin-side down for 6-8 minutes over medium-high heat.",
+        "Glaze with remaining marinade (boiled) in last 2 minutes."
       ],
       prepTime: "30 min",
-      cookTime: "5 hours",
-      restingTime: "15 min",
-      targetTempF: 205,
-      woodPairings: ["Cherry", "Apple"],
-      sauceRecommendations: ["Extra sweet BBQ glaze"],
-      sideRecommendations: ["Pickles", "Slaw"],
-      cookingTips: ["The fat should be completely rendered and like candy."]
+      cookTime: "8 min",
+      restingTime: "5 min",
+      targetTempF: 145,
+      woodPairings: ["Alder"],
+      sauceRecommendations: ["Citrus reduction"],
+      sideRecommendations: ["Rice pilaf", "Steamed broccoli"],
+      cookingTips: ["Salmon is done when it flakes easily with a fork."]
     },
+    // Seafood - Shrimp
     {
       id: crypto.randomUUID(),
-      title: "Texas Style Beef Dino Ribs",
-      proteinId: "p_beef_ribs",
-      cookingMethodId: "m_smoker",
-      flavorProfileId: "f_texas_style",
-      recipeType: "dry_rub" as const,
-      ingredients: [
-        "1 rack beef plate ribs",
-        "1/4 cup coarse black pepper",
-        "2 tbsp kosher salt"
-      ],
-      instructions: [
-        "Trim excess fat from the top.",
-        "Apply S&P rub liberally.",
-        "Smoke at 275°F until probe tender (approx 203°F internal).",
-        "Rest for 1 hour."
-      ],
-      prepTime: "15 min",
-      cookTime: "8 hours",
-      restingTime: "1 hour",
-      targetTempF: 203,
-      woodPairings: ["Oak", "Hickory"],
-      sauceRecommendations: ["None"],
-      sideRecommendations: ["Jalapeno cornbread", "Potato salad"],
-      cookingTips: ["These are like brisket on a stick. Be patient!"]
-    },
-    {
-      id: crypto.randomUUID(),
-      title: "Spicy Buffalo Chicken Wings",
-      proteinId: "p_chicken_wings",
+      title: "Spicy Garlic Grilled Shrimp",
+      proteinId: "p_shrimp",
       cookingMethodId: "m_charcoal_grill",
       flavorProfileId: "f_spicy",
       recipeType: "dry_rub" as const,
       ingredients: [
-        "2 lbs wings",
-        "2 tbsp baking powder (for crispy skin)",
-        "1 tbsp salt",
-        "1/2 cup buffalo hot sauce",
-        "1/4 cup melted butter"
+        "1 lb jumbo shrimp",
+        "1 tbsp chili powder",
+        "1 tsp cayenne pepper",
+        "1 tsp garlic powder",
+        "1/2 tsp salt",
+        "2 tbsp melted butter"
       ],
       instructions: [
-        "Toss wings in baking powder and salt.",
-        "Grill indirect at 400°F until crispy (45 min).",
-        "Toss in buffalo sauce and butter mixture.",
-        "Serve with ranch or blue cheese."
-      ],
-      prepTime: "10 min",
-      cookTime: "45 min",
-      restingTime: "0 min",
-      targetTempF: 175,
-      woodPairings: ["Hickory"],
-      sauceRecommendations: ["Buffalo sauce"],
-      sideRecommendations: ["Celery", "Carrots"],
-      cookingTips: ["Baking powder is the secret to crispy grilled wings."]
-    },
-    {
-      id: crypto.randomUUID(),
-      title: "Garlic Herb Grilled Scallops",
-      proteinId: "p_scallops",
-      cookingMethodId: "m_gas_grill",
-      flavorProfileId: "f_garlic_herb",
-      recipeType: "marinade" as const,
-      ingredients: [
-        "1 lb sea scallops",
-        "2 tbsp melted butter",
-        "2 cloves garlic, minced",
-        "1 tbsp fresh chives",
-        "Lemon zest"
-      ],
-      instructions: [
-        "Pat scallops very dry.",
-        "Toss in butter, garlic, and chives.",
-        "Grill on very high heat for 2 minutes per side.",
-        "Finish with lemon zest."
+        "Toss shrimp in melted butter.",
+        "Mix spices and coat shrimp evenly.",
+        "Thread onto skewers and grill over high heat for 2 minutes per side.",
+        "Serve with lime wedges."
       ],
       prepTime: "10 min",
       cookTime: "4 min",
       restingTime: "0 min",
-      targetTempF: 125,
+      targetTempF: 145,
       woodPairings: [],
-      sauceRecommendations: ["Lemon butter"],
-      sideRecommendations: ["Risotto", "Sautéed spinach"],
-      cookingTips: ["Dry scallops are essential for a good sear."]
+      sauceRecommendations: ["Chipotle crema"],
+      sideRecommendations: ["Cilantro lime rice"],
+      cookingTips: ["If using wooden skewers, soak them in water for 30 mins first."]
     },
+    // Vegetables - Mixed Veggies
     {
       id: crypto.randomUUID(),
-      title: "Spicy Grilled Corn (Elote Style)",
-      proteinId: "p_corn",
-      cookingMethodId: "m_charcoal_grill",
-      flavorProfileId: "f_spicy",
-      recipeType: "dry_rub" as const,
+      title: "Savory Herb Grilled Vegetables",
+      proteinId: "p_veg_mixed",
+      cookingMethodId: "m_gas_grill",
+      flavorProfileId: "f_savory_herb",
+      recipeType: "marinade" as const,
       ingredients: [
-        "4 ears of corn, shucked",
-        "2 tbsp mayo",
-        "1 tsp chili powder",
-        "1/2 tsp cayenne",
-        "1/4 cup cotija cheese",
-        "Lime wedges"
+        "2 lbs assorted veggies (zucchini, bell peppers, asparagus)",
+        "1/4 cup balsamic vinegar",
+        "1/2 cup olive oil",
+        "2 cloves garlic, minced",
+        "1 tsp dried oregano",
+        "1 tsp dried basil",
+        "Salt and pepper"
       ],
       instructions: [
-        "Grill corn over direct heat until charred.",
-        "Brush with mayo.",
-        "Sprinkle with chili powder, cayenne, and cotija.",
-        "Serve with lime."
+        "Cut veggies into uniform pieces.",
+        "Whisk marinade ingredients and toss with veggies.",
+        "Marinate for 1 hour.",
+        "Grill in a grill basket for 10-12 minutes, tossing occasionally."
       ],
-      prepTime: "10 min",
-      cookTime: "10 min",
+      prepTime: "1 hour",
+      cookTime: "12 min",
       restingTime: "0 min",
-      targetTempF: 165,
+      targetTempF: 160,
       woodPairings: [],
-      sauceRecommendations: ["Crema"],
-      sideRecommendations: ["Grilled steak", "Tacos"],
-      cookingTips: ["Don't be afraid of the char; it adds great flavor."]
+      sauceRecommendations: ["Extra balsamic glaze"],
+      sideRecommendations: ["Grilled bread"],
+      cookingTips: ["Don't over-marinate or the veggies will get mushy."]
     }
   ];
 
