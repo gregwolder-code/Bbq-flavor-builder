@@ -131,7 +131,7 @@ export default function BuilderPage() {
                       key={c.id}
                       name={c.name}
                       icon={c.icon || "🍖"}
-                      selected={selectedCategory?.slug === c.slug}
+                      selected={selectedCategory !== null && (selectedCategory as Category).slug === c.slug}
                       onClick={() => {
                         setSelectedCategory(c);
                       }}
