@@ -147,6 +147,24 @@ export const extraTemplates = [
     sideRecommendations: ["Creamed Corn", "Green Beans"],
     cookingTips: ["Wet brining steak helps it stay incredibly juicy, especially leaner cuts like sirloin."]
   },
+  {
+    id: crypto.randomUUID(),
+    title: "Sweet & Smoky Coffee Steak Rub",
+    proteinId: "p_steak",
+    cookingMethodId: "m_charcoal_grill",
+    flavorProfileId: "f_sweet_smoky",
+    recipeType: "dry_rub" as const,
+    ingredients: ["2 tbsp finely ground coffee", "2 tbsp brown sugar", "1 tbsp smoked paprika", "1 tbsp kosher salt", "1 tsp black pepper", "1/2 tsp onion powder"],
+    instructions: ["Mix all ingredients in a small bowl.", "Apply heavily to all sides of the steak.", "Let sit at room temperature for 30 minutes.", "Grill over high heat to desired doneness."],
+    prepTime: "35 min",
+    cookTime: "10 min",
+    restingTime: "10 min",
+    targetTempF: 135,
+    woodPairings: ["Oak", "Hickory"],
+    sauceRecommendations: ["Red Wine Jus"],
+    sideRecommendations: ["Fingerling Potatoes", "Balsamic Glazed Carrots"],
+    cookingTips: ["The coffee adds a deep, earthy crust that pairs perfectly with the sweetness of the sugar."]
+  },
 
   // Burgers (Current: 1 Rub [Sweet & Smoky])
   {
