@@ -53,6 +53,7 @@ function ResultsContent() {
             proteinSlug,
             methodSlug,
             flavorSlug,
+            timeSlug,
           }),
         });
 

@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Clock, Flame, Printer, Share2 } from "lucide-react";
 
 interface RecipeCardProps {
-  type: 'dry_rub' | 'marinade' | 'brine';
+  type: 'dry_rub' | 'marinade' | 'brine' | 'glaze' | 'compound_butter' | 'sauce';
   title: string;
   description: string;
   prepTime?: string;
@@ -21,12 +21,18 @@ export function RecipeCard({ type, title, description, prepTime, cookTime, resti
     dry_rub: "bg-orange-100 text-orange-800 border-orange-200 dark:bg-orange-900 dark:text-orange-100",
     marinade: "bg-red-100 text-red-800 border-red-200 dark:bg-red-900 dark:text-red-100",
     brine: "bg-blue-100 text-blue-800 border-blue-200 dark:bg-blue-900 dark:text-blue-100",
+    glaze: "bg-amber-100 text-orange-900 border-amber-200 dark:bg-orange-950 dark:text-orange-200",
+    compound_butter: "bg-yellow-100 text-yellow-800 border-yellow-200 dark:bg-yellow-900 dark:text-yellow-100",
+    sauce: "bg-emerald-100 text-emerald-800 border-emerald-200 dark:bg-emerald-900 dark:text-emerald-100",
   };
 
   const typeLabels = {
     dry_rub: "Dry Rub",
     marinade: "Marinade",
     brine: "Brine",
+    glaze: "Glaze",
+    compound_butter: "Compound Butter",
+    sauce: "Sauce",
   };
 
   return (

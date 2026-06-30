@@ -10,6 +10,9 @@ export function CookTimeline({ recipes }: CookTimelineProps) {
   const marinade = recipes.find(r => r.recipeType === 'marinade');
   const brine = recipes.find(r => r.recipeType === 'brine');
   const rub = recipes.find(r => r.recipeType === 'dry_rub');
+  const glaze = recipes.find(r => r.recipeType === 'glaze');
+  const butter = recipes.find(r => r.recipeType === 'compound_butter');
+  const sauce = recipes.find(r => r.recipeType === 'sauce');
   
   // Use the first recipe that has timing info for the main cook
   const mainRecipe = recipes[0];
@@ -20,7 +23,7 @@ export function CookTimeline({ recipes }: CookTimelineProps) {
     timelineItems.push({
       time: brine.prepTime || "Sometime before",
       label: "Start Brining",
-      description: "Submerge your protein in the brine solution and refrigerate."
+      description: `Submerge your protein in the ${brine.title.toLowerCase()} and refrigerate.`
     });
   }
 
@@ -28,7 +31,7 @@ export function CookTimeline({ recipes }: CookTimelineProps) {
     timelineItems.push({
       time: marinade.prepTime || "2-4 hours before",
       label: "Start Marinade",
-      description: "Coat your protein in the marinade and let those flavors penetrate."
+      description: `Coat your protein in the ${marinade.title.toLowerCase()} and let those flavors penetrate.`
     });
   }
 
@@ -36,7 +39,7 @@ export function CookTimeline({ recipes }: CookTimelineProps) {
     timelineItems.push({
       time: "30-60 min before",
       label: "Apply Dry Rub",
-      description: "Pat dry and apply the rub liberally for that perfect bark or crust."
+      description: `Pat dry and apply the ${rub.title.toLowerCase()} liberally for that perfect bark or crust.`
     });
   }
 
@@ -52,6 +55,14 @@ export function CookTimeline({ recipes }: CookTimelineProps) {
     description: `Place the protein on the heat. Estimated cook time: ${mainRecipe.cookTime || 'Varies'}.`
   });
 
+  if (glaze) {
+    timelineItems.push({
+      time: "Last 10-15 min",
+      label: "Apply Glaze",
+      description: `Brush on the ${glaze.title.toLowerCase()} in layers for a tacky, caramelized finish.`
+    });
+  }
+
   if (mainRecipe.targetTempF) {
     timelineItems.push({
       time: "During Cook",
@@ -60,11 +71,27 @@ export function CookTimeline({ recipes }: CookTimelineProps) {
     });
   }
 
+  if (butter) {
+    timelineItems.push({
+      time: "Just Before Serving",
+      label: "Top with Butter",
+      description: `Add a slice of the ${butter.title.toLowerCase()} while the meat is hot.`
+    });
+  }
+
   if (mainRecipe.restingTime) {
     timelineItems.push({
       time: "After Cook",
       label: "The Rest",
       description: `Rest for ${mainRecipe.restingTime}. This is crucial for juiciness!`
+    });
+  }
+
+  if (sauce) {
+    timelineItems.push({
+      time: "Serve",
+      label: "Sauce it Up",
+      description: `Serve with the ${sauce.title.toLowerCase()} on the side or drizzled over.`
     });
   }
 

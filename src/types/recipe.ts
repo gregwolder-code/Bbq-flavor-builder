@@ -3,7 +3,7 @@ export interface Recipe {
   proteinId: string;
   cookingMethodId: string;
   flavorProfileId: string;
-  recipeType: "dry_rub" | "marinade" | "brine";
+  recipeType: "dry_rub" | "marinade" | "brine" | "glaze" | "compound_butter" | "sauce";
   title: string;
   ingredients: string[];
   instructions: string[];

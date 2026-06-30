@@ -5,11 +5,13 @@ import { eq, and } from "drizzle-orm";
 
 export async function POST(req: NextRequest) {
   try {
-    const { proteinSlug, methodSlug, flavorSlug } = await req.json();
+    const { proteinSlug, methodSlug, flavorSlug, timeSlug } = await req.json();
 
     if (!proteinSlug || !methodSlug || !flavorSlug) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
+
+    const time = timeSlug || "standard";
 
     // 1. Get IDs for slugs
     const [protein] = await db.select().from(proteins).where(eq(proteins.slug, proteinSlug)).limit(1);
@@ -20,8 +22,71 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Invalid protein, method, or flavor slug" }, { status: 404 });
     }
 
-    // 2. Try to find exact matches for all 3 recipe types
-    const types = ["dry_rub", "marinade", "brine"] as const;
+    // 2. Determine which recipe types to fetch based on protein and time
+    const getRecipeTypes = (pSlug: string, tSlug: string): string[] => {
+      // Logic from lead instructions:
+      // Quick (< 1h): dry_rub + glaze/compound_butter/sauce (NO marinade/brine)
+      // Standard (1-3h): dry_rub + marinade
+      // Weekend (3-6h): dry_rub + marinade + brine
+      // Low & Slow (6h+): dry_rub + marinade + brine
+
+      if (tSlug === "quick") {
+        switch (pSlug) {
+          case "steak":
+            return ["dry_rub", "compound_butter", "sauce"];
+          case "chicken":
+          case "turkey":
+            return ["dry_rub", "glaze"];
+          case "salmon":
+          case "shrimp":
+          case "mixed-veggies":
+            return ["marinade", "glaze"]; // Seafood/Veg marinades are fast
+          case "burgers":
+            return ["dry_rub", "sauce"];
+          default:
+            return ["dry_rub", "sauce"];
+        }
+      }
+
+      if (tSlug === "standard") {
+        switch (pSlug) {
+          case "steak":
+            return ["dry_rub", "compound_butter", "sauce"];
+          case "salmon":
+          case "shrimp":
+          case "mixed-veggies":
+            return ["marinade", "glaze"];
+          case "burgers":
+            return ["dry_rub", "sauce"];
+          case "chicken":
+          case "turkey":
+            return ["dry_rub", "marinade"]; // Brine takes too long for standard
+          default:
+            return ["dry_rub", "marinade"];
+        }
+      }
+
+      // Weekend (3-6h) or Low & Slow (6h+)
+      switch (pSlug) {
+        case "brisket":
+          return ["dry_rub", "marinade"]; // Brisket usually injection (marinade) + rub
+        case "steak":
+          return ["dry_rub", "compound_butter", "sauce"];
+        case "chicken":
+        case "turkey":
+          return ["dry_rub", "brine", "glaze"];
+        case "salmon":
+        case "shrimp":
+        case "mixed-veggies":
+          return ["marinade", "glaze"];
+        case "burgers":
+          return ["dry_rub", "sauce"];
+        default:
+          return ["dry_rub", "marinade", "brine"];
+      }
+    };
+
+    const types = getRecipeTypes(proteinSlug, time);
     const results: Record<string, any> = {};
 
     for (const type of types) {
