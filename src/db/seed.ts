@@ -1,6 +1,7 @@
 import { db } from "./index";
 import * as schema from "./schema";
 import { eq } from "drizzle-orm";
+import { extraTemplates } from "./extra-templates";
 
 async function seed() {
   console.log("🌱 Seeding database with OWNER-APPROVED structure...");
@@ -400,7 +401,8 @@ async function seed() {
       sauceRecommendations: ["Extra balsamic glaze"],
       sideRecommendations: ["Grilled bread"],
       cookingTips: ["Don't over-marinate or the veggies will get mushy."]
-    }
+    },
+    ...extraTemplates
   ];
 
   for (const t of templates) {
