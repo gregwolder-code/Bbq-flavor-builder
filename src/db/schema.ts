@@ -129,7 +129,7 @@ export const recipeTemplates = sqliteTable("recipe_templates", {
     .notNull()
     .references(() => flavorProfiles.id),
   recipeType: text("recipe_type", {
-    enum: ["dry_rub", "marinade", "brine"],
+    enum: ["dry_rub", "marinade", "brine", "glaze", "compound_butter", "sauce"],
   }).notNull(),
   title: text("title").notNull(),
   ingredients: text("ingredients", { mode: "json" }).notNull(), // JSON array

@@ -117,28 +117,28 @@ async function seed() {
     // Beef - Steak
     {
       id: crypto.randomUUID(),
-      title: "Savory Herb Marinated Ribeye",
+      title: "Savory Herb Steak Rub",
       proteinId: "p_steak",
       cookingMethodId: "m_charcoal_grill",
       flavorProfileId: "f_savory_herb",
-      recipeType: "marinade" as const,
+      recipeType: "dry_rub" as const,
       ingredients: [
         "2 large ribeye steaks",
-        "1/4 cup olive oil",
-        "3 cloves garlic, minced",
-        "1 tbsp fresh rosemary, chopped",
-        "1 tbsp fresh thyme, chopped",
-        "2 tbsp Worcestershire sauce",
-        "Salt and pepper"
+        "1 tbsp dried rosemary",
+        "1 tbsp dried thyme",
+        "1 tbsp garlic powder",
+        "1 tbsp onion powder",
+        "1 tbsp kosher salt",
+        "1 tsp black pepper"
       ],
       instructions: [
-        "Mix oil, garlic, herbs, and Worcestershire.",
-        "Marinate steaks for 2-4 hours in the fridge.",
-        "Preheat grill to high heat.",
-        "Sear steaks for 4-5 minutes per side for medium-rare.",
+        "Mix all dry ingredients in a small bowl.",
+        "Pat steaks dry with paper towels.",
+        "Apply rub liberally to all sides of the steaks.",
+        "Grill over high heat for 4-5 minutes per side for medium-rare.",
         "Rest for 10 minutes before slicing."
       ],
-      prepTime: "2 hours",
+      prepTime: "10 min",
       cookTime: "10 min",
       restingTime: "10 min",
       targetTempF: 135,
@@ -247,34 +247,35 @@ async function seed() {
     // Poultry - Chicken
     {
       id: crypto.randomUUID(),
-      title: "Spicy Grilled Spatchcock Chicken",
+      title: "Savory Herb Chicken Brine",
       proteinId: "p_chicken",
       cookingMethodId: "m_charcoal_grill",
-      flavorProfileId: "f_spicy",
-      recipeType: "marinade" as const,
+      flavorProfileId: "f_savory_herb",
+      recipeType: "brine" as const,
       ingredients: [
         "1 whole chicken",
-        "1/2 cup olive oil",
-        "1/4 cup hot sauce",
-        "2 tbsp lime juice",
-        "1 tbsp chili powder",
-        "3 cloves garlic, minced"
+        "4 cups water",
+        "1/4 cup kosher salt",
+        "1/4 cup sugar",
+        "2 sprigs fresh rosemary",
+        "2 sprigs fresh thyme",
+        "3 cloves garlic, smashed"
       ],
       instructions: [
-        "Spatchcock the chicken by removing the backbone.",
-        "Mix marinade ingredients and coat chicken. Marinate for 4 hours.",
-        "Grill indirect at 375°F for 45 minutes.",
-        "Move to direct heat for 5 minutes to crisp skin.",
+        "Heat 1 cup water with salt and sugar until dissolved; add remaining cold water and herbs.",
+        "Submerge chicken in brine for 4-8 hours in the fridge.",
+        "Remove from brine, pat extremely dry.",
+        "Grill indirect at 375°F for 45 minutes until 165°F internal.",
         "Rest 15 minutes before carving."
       ],
-      prepTime: "4 hours",
+      prepTime: "6 hours",
       cookTime: "50 min",
       restingTime: "15 min",
       targetTempF: 165,
       woodPairings: ["Apple"],
-      sauceRecommendations: ["Spicy garlic aioli"],
+      sauceRecommendations: ["Garlic aioli"],
       sideRecommendations: ["Grilled corn", "Potato salad"],
-      cookingTips: ["Removing the backbone helps the chicken cook flat and evenly."]
+      cookingTips: ["Brining ensures the breast meat stays juicy on the grill."]
     },
     // Poultry - Turkey
     {
@@ -311,96 +312,91 @@ async function seed() {
     // Seafood - Salmon
     {
       id: crypto.randomUUID(),
-      title: "Tangy Citrus Grilled Salmon",
+      title: "Sweet & Smoky Salmon Glaze",
       proteinId: "p_salmon",
       cookingMethodId: "m_gas_grill",
-      flavorProfileId: "f_tangy",
-      recipeType: "marinade" as const,
+      flavorProfileId: "f_sweet_smoky",
+      recipeType: "glaze" as const,
       ingredients: [
         "4 salmon fillets",
-        "1/4 cup orange juice",
-        "2 tbsp lemon juice",
-        "2 tbsp soy sauce",
-        "1 tbsp honey",
-        "1 tsp grated ginger"
+        "2 tbsp maple syrup",
+        "1 tbsp soy sauce",
+        "1 tsp smoked paprika",
+        "1/2 tsp garlic powder"
       ],
       instructions: [
-        "Mix marinade ingredients and pour over salmon.",
-        "Marinate for 30 minutes in the fridge.",
-        "Grill skin-side down for 6-8 minutes over medium-high heat.",
-        "Glaze with remaining marinade (boiled) in last 2 minutes."
+        "Whisk ingredients to create the glaze.",
+        "Grill salmon skin-side down over medium heat.",
+        "Apply glaze in the last 4-5 minutes of cooking.",
+        "Cook until salmon flakes easily with a fork."
       ],
-      prepTime: "30 min",
-      cookTime: "8 min",
-      restingTime: "5 min",
+      prepTime: "5 min",
+      cookTime: "10 min",
+      restingTime: "2 min",
       targetTempF: 145,
-      woodPairings: ["Alder"],
-      sauceRecommendations: ["Citrus reduction"],
+      woodPairings: ["Alder", "Maple"],
+      sauceRecommendations: ["None"],
       sideRecommendations: ["Rice pilaf", "Steamed broccoli"],
-      cookingTips: ["Salmon is done when it flakes easily with a fork."]
+      cookingTips: ["Maple syrup caramelizes beautifully and adds a subtle sweetness."]
     },
     // Seafood - Shrimp
     {
       id: crypto.randomUUID(),
-      title: "Spicy Garlic Grilled Shrimp",
+      title: "Spicy Lime & Honey Shrimp Glaze",
       proteinId: "p_shrimp",
       cookingMethodId: "m_charcoal_grill",
       flavorProfileId: "f_spicy",
-      recipeType: "dry_rub" as const,
+      recipeType: "glaze" as const,
       ingredients: [
         "1 lb jumbo shrimp",
-        "1 tbsp chili powder",
-        "1 tsp cayenne pepper",
-        "1 tsp garlic powder",
-        "1/2 tsp salt",
-        "2 tbsp melted butter"
+        "2 tbsp honey",
+        "1 tbsp lime juice",
+        "1 tsp sriracha",
+        "1/2 tsp salt"
       ],
       instructions: [
-        "Toss shrimp in melted butter.",
-        "Mix spices and coat shrimp evenly.",
-        "Thread onto skewers and grill over high heat for 2 minutes per side.",
-        "Serve with lime wedges."
+        "Whisk glaze ingredients.",
+        "Grill shrimp on skewers over high heat.",
+        "Brush glaze on both sides during the last 2 minutes.",
+        "Serve immediately with lime wedges."
       ],
       prepTime: "10 min",
       cookTime: "4 min",
       restingTime: "0 min",
       targetTempF: 145,
       woodPairings: [],
-      sauceRecommendations: ["Chipotle crema"],
+      sauceRecommendations: ["Extra glaze for dipping"],
       sideRecommendations: ["Cilantro lime rice"],
-      cookingTips: ["If using wooden skewers, soak them in water for 30 mins first."]
+      cookingTips: ["High heat and a quick glaze keep shrimp snap-fresh."]
     },
     // Vegetables - Mixed Veggies
     {
       id: crypto.randomUUID(),
-      title: "Savory Herb Grilled Vegetables",
+      title: "Savory Herb Balsamic Glaze",
       proteinId: "p_veg_mixed",
       cookingMethodId: "m_gas_grill",
       flavorProfileId: "f_savory_herb",
-      recipeType: "marinade" as const,
+      recipeType: "glaze" as const,
       ingredients: [
-        "2 lbs assorted veggies (zucchini, bell peppers, asparagus)",
-        "1/4 cup balsamic vinegar",
-        "1/2 cup olive oil",
-        "2 cloves garlic, minced",
+        "2 lbs assorted veggies",
+        "1/4 cup balsamic glaze",
+        "1 tbsp olive oil",
         "1 tsp dried oregano",
-        "1 tsp dried basil",
-        "Salt and pepper"
+        "1/2 tsp salt"
       ],
       instructions: [
         "Cut veggies into uniform pieces.",
-        "Whisk marinade ingredients and toss with veggies.",
-        "Marinate for 1 hour.",
-        "Grill in a grill basket for 10-12 minutes, tossing occasionally."
+        "Grill in a basket until tender.",
+        "Toss with the herb-infused balsamic glaze immediately after removing from heat."
       ],
-      prepTime: "1 hour",
+      prepTime: "10 min",
       cookTime: "12 min",
       restingTime: "0 min",
       targetTempF: 160,
       woodPairings: [],
-      sauceRecommendations: ["Extra balsamic glaze"],
+      sauceRecommendations: ["None"],
       sideRecommendations: ["Grilled bread"],
-      cookingTips: ["Don't over-marinate or the veggies will get mushy."]
+      cookingTips: ["Applying glaze at the end prevents the balsamic from burning."]
     },
     ...extraTemplates
   ];
