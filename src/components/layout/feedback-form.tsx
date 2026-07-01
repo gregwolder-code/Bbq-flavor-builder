@@ -59,19 +59,21 @@ export function FeedbackForm() {
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger asChild>
-        <Button
-          variant="default"
-          size="icon"
-          className={cn(
-            "fixed bottom-6 right-6 h-12 w-12 rounded-full shadow-xl hover:scale-110 transition-all duration-300 z-40 border-2 border-primary-foreground/20",
-            "bg-primary text-primary-foreground hover:bg-primary/90"
-          )}
-        >
-          <MessageSquare className="h-6 w-6" />
-          <span className="sr-only">Feedback</span>
-        </Button>
-      </DialogTrigger>
+      <DialogTrigger
+        render={
+          <Button
+            variant="default"
+            size="icon"
+            className={cn(
+              "fixed bottom-6 right-6 h-12 w-12 rounded-full shadow-xl hover:scale-110 transition-all duration-300 z-40 border-2 border-primary-foreground/20",
+              "bg-primary text-primary-foreground hover:bg-primary/90"
+            )}
+          >
+            <MessageSquare className="h-6 w-6" />
+            <span className="sr-only">Feedback</span>
+          </Button>
+        }
+      />
       <DialogContent className="sm:max-w-[425px]">
         <form onSubmit={handleSubmit}>
           <DialogHeader>
