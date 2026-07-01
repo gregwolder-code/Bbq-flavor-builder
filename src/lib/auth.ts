@@ -10,10 +10,12 @@ import * as schema from "@/db/schema"
 declare module "next-auth" {
   interface User {
     isAdmin?: boolean
+    premiumTier?: string
   }
   interface Session {
     user: {
       isAdmin?: boolean
+      premiumTier?: string
     } & DefaultSession["user"]
   }
 }
@@ -40,6 +42,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     session({ session, user }) {
       if (session.user) {
         session.user.isAdmin = (user as any).isAdmin;
+        session.user.premiumTier = (user as any).premiumTier;
       }
       return session;
     },

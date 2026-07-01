@@ -1,14 +1,18 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useRouter } from "next/navigation";
 import { StepIndicator } from "@/components/builder/step-indicator";
 import { ProteinCard } from "@/components/builder/protein-card";
 import { MethodSelector } from "@/components/builder/method-selector";
 import { TimeSelector } from "@/components/builder/time-selector";
 import { FlavorSelector } from "@/components/builder/flavor-selector";
+import { Paywall } from "@/components/builder/paywall";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, ArrowRight, Loader2 } from "lucide-react";
+import { ArrowLeft, ArrowRight, Loader2, Sparkles } from "lucide-react";
+import { useRecipeGenerations } from "@/hooks/use-recipe-generations";
+import { useSearchParams } from "next/navigation";
+import { toast } from "sonner";
 
 interface SubProtein {
   id: string;
@@ -39,7 +43,7 @@ interface FlavorProfile {
   slug: string;
 }
 
-export default function BuilderPage() {
+function BuilderPageContent() {
   const router = useRouter();
   const [step, setStep] = useState(1);
   const [categories, setCategories] = useState<Category[]>([]);
@@ -53,6 +57,17 @@ export default function BuilderPage() {
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [selectedFlavor, setSelectedFlavor] = useState<string | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
+  const searchParams = useSearchParams();
+  const { getRemaining, useGeneration, isUnlimited, setUnlimited, isLoading: isUsageLoading } = useRecipeGenerations();
+  const [showPaywall, setShowPaywall] = useState(false);
+
+  useEffect(() => {
+    if (searchParams.get("unlocked") === "true") {
+      setUnlimited();
+      toast.success("Welcome back! Your account is unlocked.");
+      router.replace("/builder");
+    }
+  }, [searchParams, setUnlimited, router]);
 
   const timeOptions = [
     { id: "quick", name: "Quick", description: "< 1 hour total" },
@@ -102,11 +117,22 @@ export default function BuilderPage() {
   const handleGenerate = async () => {
     if (!selectedProtein || !selectedMethod || !selectedFlavor) return;
     
+    const remaining = getRemaining();
+    if (remaining === 0) {
+      setShowPaywall(true);
+      return;
+    }
+
+    if (remaining === 1) {
+      toast.warning("Last free recipe! Unlock unlimited to save them all.");
+    }
+
     setIsGenerating(true);
+    useGeneration();
     router.push(`/results?protein=${selectedProtein}&method=${selectedMethod}&flavor=${selectedFlavor}&time=${selectedTime || 'standard'}`);
   };
 
-  if (isLoadingData) {
+  if (isLoadingData || isUsageLoading) {
     return (
       <div className="flex flex-col min-h-screen items-center justify-center">
         <div className="text-center">
@@ -117,8 +143,26 @@ export default function BuilderPage() {
     );
   }
 
+  if (showPaywall) {
+    return (
+      <div className="container mx-auto px-4 py-12 max-w-4xl">
+        <Paywall onUnlock={() => setShowPaywall(false)} />
+      </div>
+    );
+  }
+
+  const remaining = getRemaining();
+
   return (
     <div className="container mx-auto px-4 py-12 max-w-4xl">
+      {!isUnlimited && remaining !== Infinity && (
+        <div className="flex justify-end mb-4">
+          <div className="bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-semibold flex items-center gap-2">
+            <Sparkles className="h-4 w-4" />
+            {remaining} free recipes left
+          </div>
+        </div>
+      )}
       <div className="mb-12 text-center">
         <h1 className="text-3xl font-bold mb-4">Build Your Flavor Profile</h1>
         <p className="text-muted-foreground">Follow the steps below to generate your custom BBQ recipes.</p>
@@ -260,5 +304,13 @@ export default function BuilderPage() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function BuilderPage() {
+  return (
+    <Suspense fallback={<div className="flex justify-center py-20"><Loader2 className="h-10 w-10 animate-spin text-primary" /></div>}>
+      <BuilderPageContent />
+    </Suspense>
   );
 }

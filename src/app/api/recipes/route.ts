@@ -33,6 +33,16 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
+    // Check for premium tier to save recipes
+    const tier = session.user.premiumTier;
+    const isPremium = tier === "premium" || tier === "unlimited" || session.user.isAdmin;
+    
+    if (!isPremium) {
+      return NextResponse.json({ 
+        error: "Premium subscription required to save recipes to your book." 
+      }, { status: 403 });
+    }
+
     const body = await req.json();
     const { 
       recipeTemplateId, protein, cookingMethod, flavorProfile, 

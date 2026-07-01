@@ -20,17 +20,23 @@ export default function Home() {
               <p className="mb-10 text-lg text-muted-foreground sm:text-xl">
                 No more guessing games. Choose your protein, cooking method, and flavor profile to get custom dry rubs, marinades, and brines perfectly paired for your cook.
               </p>
-              <div className="flex flex-col space-y-4 sm:flex-row sm:justify-center sm:space-x-4 sm:space-y-0">
-                <Link href="/builder">
-                  <Button size="lg" className="h-12 px-8 text-base w-full sm:w-auto">
-                    Start Building <ArrowRight className="ml-2 h-5 w-5" />
-                  </Button>
-                </Link>
-                <Link href="/recipes">
-                  <Button size="lg" variant="outline" className="h-12 px-8 text-base w-full sm:w-auto">
-                    Browse Flavors
-                  </Button>
-                </Link>
+              <div className="flex flex-col items-center space-y-4">
+                <div className="flex flex-col space-y-4 sm:flex-row sm:justify-center sm:space-x-4 sm:space-y-0">
+                  <Link href="/builder">
+                    <Button size="lg" className="h-12 px-8 text-base w-full sm:w-auto relative">
+                      Start Building <ArrowRight className="ml-2 h-5 w-5" />
+                    </Button>
+                  </Link>
+                  <Link href="/recipes">
+                    <Button size="lg" variant="outline" className="h-12 px-8 text-base w-full sm:w-auto">
+                      Browse Flavors
+                    </Button>
+                  </Link>
+                </div>
+                <div className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground">
+                  <Star className="h-4 w-4 text-primary fill-primary" />
+                  Free • 3 recipes included
+                </div>
               </div>
             </div>
           </div>
@@ -159,9 +165,9 @@ export default function Home() {
                   Get Started Free
                 </Button>
               </Link>
-              <Button size="lg" variant="outline" className="h-14 px-10 text-lg font-bold bg-transparent text-white border-white hover:bg-white/10 w-full sm:w-auto">
-                Sign In
-              </Button>
+            </div>
+            <div className="mt-4 text-sm font-medium opacity-80 flex items-center justify-center gap-1.5">
+              <Zap className="h-4 w-4 fill-current" /> 3 free recipes • No credit card required
             </div>
           </div>
         </section>
