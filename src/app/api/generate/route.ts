@@ -86,7 +86,7 @@ export async function POST(req: NextRequest) {
       }
     };
 
-    const types = getRecipeTypes(proteinSlug, time);
+    const types = getRecipeTypes(proteinSlug, time) as ("dry_rub" | "marinade" | "brine" | "glaze" | "compound_butter" | "sauce")[];
     const results: Record<string, any> = {};
 
     for (const type of types) {

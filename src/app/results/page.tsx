@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, Download, Printer, Share2, Loader2, Flame } from "lucide-react";
 import Link from "next/link";
 import { GenerationResult, Recipe } from "@/types/recipe";
+import { toast } from "sonner";
 
 export default function ResultsPage() {
   return (
@@ -119,7 +120,31 @@ function ResultsContent() {
     setSavedCount(successCount);
     setIsSaving(false);
     if (successCount > 0) {
-      alert(`Successfully saved ${successCount} recipes to your book!`);
+      toast.success(`Successfully saved ${successCount} recipes to your book!`);
+    }
+  };
+
+  const handleShareAll = async () => {
+    const shareData = {
+      title: 'BBQ Flavor Builder - Custom Trio',
+      text: 'Check out these custom BBQ recipes!',
+      url: window.location.href,
+    };
+
+    if (navigator.share) {
+      try {
+        await navigator.share(shareData);
+      } catch (err) {
+        console.error("Error sharing:", err);
+      }
+    } else {
+      try {
+        await navigator.clipboard.writeText(window.location.href);
+        toast.success("Link copied to clipboard!");
+      } catch (err) {
+        console.error("Error copying to clipboard:", err);
+        toast.error("Failed to copy link");
+      }
     }
   };
 
@@ -167,10 +192,10 @@ function ResultsContent() {
           </p>
         </div>
         <div className="flex flex-wrap justify-center gap-3">
-          <Button variant="outline" size="sm">
+          <Button variant="outline" size="sm" onClick={handleShareAll}>
             <Share2 className="mr-2 h-4 w-4" /> Share All
           </Button>
-          <Button variant="outline" size="sm">
+          <Button variant="outline" size="sm" onClick={() => window.print()}>
             <Printer className="mr-2 h-4 w-4" /> Print All
           </Button>
           <Button size="sm" onClick={handleSaveAll} disabled={isSaving || savedCount > 0}>
